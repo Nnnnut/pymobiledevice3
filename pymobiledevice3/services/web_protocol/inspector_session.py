@@ -1,6 +1,6 @@
 import asyncio
 import json
-import logging
+from nut.log import Log as logging
 from collections import UserDict
 from typing import List, Mapping, Optional
 

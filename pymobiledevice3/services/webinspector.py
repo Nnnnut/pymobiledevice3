@@ -1,6 +1,6 @@
 import asyncio
 import json
-import logging
+from nut.log import Log as logging
 import uuid
 from dataclasses import dataclass, fields
 from enum import Enum

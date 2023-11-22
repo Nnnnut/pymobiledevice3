@@ -1,5 +1,5 @@
 # extracted from ac2
-import logging
+from nut.log import Log as logging
 import uuid
 
 from ipsw_parser.build_identity import BuildIdentity

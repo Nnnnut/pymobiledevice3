@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 
 from pymobiledevice3.lockdown_service_provider import LockdownServiceProvider
 from pymobiledevice3.service_connection import LockdownServiceConnection

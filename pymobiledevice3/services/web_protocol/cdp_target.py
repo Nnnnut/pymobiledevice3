@@ -1,7 +1,7 @@
 import asyncio
 import hashlib
 import json
-import logging
+from nut.log import Log as logging
 from datetime import datetime
 from functools import partial
 

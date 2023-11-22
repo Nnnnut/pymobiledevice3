@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 from functools import update_wrapper
 from pathlib import Path
 from urllib.error import URLError

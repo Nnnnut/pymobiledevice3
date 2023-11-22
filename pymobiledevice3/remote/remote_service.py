@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 from typing import Optional
 
 from pymobiledevice3.remote.remote_service_discovery import RemoteServiceDiscoveryService

@@ -1,6 +1,6 @@
 import dataclasses
 import ipaddress
-import logging
+from nut.log import Log as logging
 
 from construct import Adapter, Bytes, Int8ul, Int16ub, Int32ul, Struct, Switch, this
 

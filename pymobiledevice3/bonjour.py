@@ -1,5 +1,5 @@
 import dataclasses
-import logging
+from nut.log import Log as logging
 import socket
 import time
 from typing import List, Mapping

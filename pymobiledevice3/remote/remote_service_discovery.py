@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 from dataclasses import dataclass
 from typing import List, Mapping, Optional, Tuple, Union
 

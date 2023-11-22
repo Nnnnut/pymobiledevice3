@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 from functools import cached_property
 
 from pymobiledevice3 import usbmux

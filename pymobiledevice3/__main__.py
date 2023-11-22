@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import logging
+from nut.log import Log as logging
 import traceback
 
 import click
@@ -35,7 +35,7 @@ from pymobiledevice3.exceptions import AccessDeniedError, ConnectionFailedError,
     NotPairedError, PairingDialogResponsePendingError, PasswordRequiredError, SetProhibitedError, \
     TunneldConnectionError, UserDeniedPairingError
 
-coloredlogs.install(level=logging.INFO)
+# coloredlogs.install(level=logging.INFO)
 
 logging.getLogger('quic').disabled = True
 logging.getLogger('asyncio').disabled = True

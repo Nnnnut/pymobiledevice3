@@ -1,6 +1,6 @@
 import asyncio
 import dataclasses
-import logging
+from nut.log import Log as logging
 import os
 import signal
 from contextlib import suppress

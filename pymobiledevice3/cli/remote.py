@@ -1,5 +1,5 @@
 import asyncio
-import logging
+from nut.log import Log as logging
 import sys
 import tempfile
 from functools import partial
@@ -118,7 +118,13 @@ async def tunnel_task(
                   click.style(f'--rsd {tunnel_result.address} {tunnel_result.port}', bold=True, fg='cyan'))
         sys.stdout.flush()
 
+        import json, os
+        RSD_json_path = 'RSD_info.json'
+        with open(RSD_json_path, 'w') as f:
+            json.dump({'host':tunnel_result.address, 'port':tunnel_result.port}, f)
+
         await tunnel_result.client.wait_closed()
+        os.remove(RSD_json_path)
         logger.info('tunnel was closed')
 
 

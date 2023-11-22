@@ -1,5 +1,5 @@
 import asyncio
-import logging
+from nut.log import Log as logging
 import plistlib
 import socket
 import ssl

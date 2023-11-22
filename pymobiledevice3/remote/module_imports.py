@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 import sys
 
 logger = logging.getLogger(__name__)

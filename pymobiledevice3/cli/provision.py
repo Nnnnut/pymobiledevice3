@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 from pathlib import Path
 
 import click

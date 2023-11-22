@@ -1,6 +1,6 @@
 import binascii
 import hashlib
-import logging
+from nut.log import Log as logging
 import os
 import plistlib
 import struct

@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 import os
 import plistlib
 from typing import List
@@ -8,7 +8,7 @@ import coloredlogs
 
 NOTIFICATIONS_FILENAME = os.path.join(os.path.dirname(__file__), 'notifications.txt')
 
-coloredlogs.install(level=logging.DEBUG)
+# coloredlogs.install(level=logging.DEBUG)
 
 
 def get_notifications():

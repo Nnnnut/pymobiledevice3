@@ -1,5 +1,5 @@
 import binascii
-import logging
+from nut.log import Log as logging
 import math
 import struct
 import time

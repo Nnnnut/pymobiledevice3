@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import datetime
-import logging
+from nut.log import Log as logging
 import os
 import plistlib
 import tempfile

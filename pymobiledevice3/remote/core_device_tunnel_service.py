@@ -4,7 +4,7 @@ import binascii
 import dataclasses
 import hashlib
 import json
-import logging
+from nut.log import Log as logging
 import platform
 import plistlib
 import struct

@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 
 from pymobiledevice3.services.remote_server import MessageAux
 

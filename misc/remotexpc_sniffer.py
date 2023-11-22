@@ -1,4 +1,4 @@
-import logging
+from nut.log import Log as logging
 from pprint import pformat
 from typing import List, MutableMapping, Optional
 
@@ -18,7 +18,7 @@ from pymobiledevice3.remote.xpc_message import XpcWrapper, decode_xpc_object
 
 logger = logging.getLogger()
 
-coloredlogs.install(level=logging.DEBUG)
+# coloredlogs.install(level=logging.DEBUG)
 
 FRAME_HEADER_SIZE = 9
 

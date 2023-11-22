@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import logging
+from nut.log import Log as logging
 import time
 
 from pymobiledevice3.lockdown import LockdownClient
