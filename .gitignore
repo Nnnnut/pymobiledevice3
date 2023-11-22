@@ -7,3 +7,6 @@ version.txt
 debug/
 *.pyc
 *.egg-info/
+
+.gitignore
+.vscode/
