@@ -23,13 +23,19 @@ class NutCoreProfileSessionTap(Tap):
         self.uuid = str(uuid.uuid4())
 
         if filters is None:
-            filters = {630784000, 833617920, 830472456}
+            filters = {830472984}
 
-        config = {  'rp': 10,
-                    'tc': [{'kdf2': filters,
-                            'tk': 3,
-                            'uuid': self.uuid}],
-                    'ur': 2000}
+        config = {
+            'tc': [{
+                'csd': 128,  # Callstack frame depth.
+                'kdf2': filters,  # Kdebug filter, receive all classes.
+                'tk': 3,  # Kind.
+                'uuid': self.uuid,
+            }],  # Triggers configs
+            'rp': 100,  # Recording priority
+            'bm': 0,  # Buffer mode.
+            'ur': 2000,
+        }
 
         super().__init__(dvt, self.IDENTIFIER, config)
 
@@ -101,9 +107,6 @@ class NutCoreProfileSessionTap(Tap):
                 
                 if time_count > NANO_SECOND:
                     run_time_sec = time.perf_counter() - start
-                    logger.info(f'\
-                                FPS: {frame_count / time_count * NANO_SECOND:3.5f}, \
-                                costTime: {run_time_sec//3600%60:02.0f}:{run_time_sec//60%60:02.0f}:{run_time_sec%60:02.0f}, \
-                                time: {time_count / NANO_SECOND:.4f}')
+                    logger.info(f'FPS: {frame_count / time_count * NANO_SECOND:3.5f}, costTime: {run_time_sec//3600%60:02.0f}:{run_time_sec//60%60:02.0f}:{run_time_sec%60:02.0f}, time: {time_count / NANO_SECOND:.4f}')
                     frame_count = 0
                     time_count = 0

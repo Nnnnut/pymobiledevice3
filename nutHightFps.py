@@ -1,23 +1,22 @@
-import sys, os, json, logging
+import sys, os, json
 from pymobiledevice3.lockdown import create_using_usbmux
 from pymobiledevice3.remote.remote_service_discovery import RemoteServiceDiscoveryService
 from pymobiledevice3.services.dvt.dvt_secure_socket_proxy import DvtSecureSocketProxyService
 import nut.coreProfileSessionTap as nut
-# from nut.log import Log
+from nut.log import Log
 
-log = logging.getLogger('Nut')
+log = Log.getLogger('Nut')
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        assert os.path.isfile(sys.argv[1]), f'输入参数不是一个文件，{sys.argv[1]}'
-
         log.info(f'ios17 hight Fps get')
 
         RSD_json_path = sys.argv[1]
         if not os.path.isfile(RSD_json_path):
-            log.info(f'wait for {RSD_json_path}')
+            log.info(f'waiting file: {RSD_json_path}')
             while not os.path.isfile(RSD_json_path):
                 pass
+            log.info(f'file found: {RSD_json_path}')
 
         with open(RSD_json_path, 'r') as f:
             RSD_info = json.load(f)
