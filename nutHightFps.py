@@ -2,34 +2,19 @@ import sys, os, json
 from pymobiledevice3.lockdown import create_using_usbmux
 from pymobiledevice3.remote.remote_service_discovery import RemoteServiceDiscoveryService
 from pymobiledevice3.services.dvt.dvt_secure_socket_proxy import DvtSecureSocketProxyService
-import nut.coreProfileSessionTap as nut
+
+from PySide6.QtWidgets import QApplication
+from nut.nutWidget import NutWidget
+
 from nut.log import Log
 
 log = Log.getLogger('Nut')
 
+
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        log.info(f'ios17 hight Fps get')
-
-        RSD_json_path = sys.argv[1]
-        if not os.path.isfile(RSD_json_path):
-            log.info(f'waiting file: {RSD_json_path}')
-            while not os.path.isfile(RSD_json_path):
-                pass
-            log.info(f'file found: {RSD_json_path}')
-
-        with open(RSD_json_path, 'r') as f:
-            RSD_info = json.load(f)
-
-        log.info(f'start tunnel done: {RSD_info.get("host")} {RSD_info.get("port")}')
-
-        with RemoteServiceDiscoveryService((RSD_info.get("host"), RSD_info.get("port"))) as rsd:
-            with DvtSecureSocketProxyService(rsd) as dvt:
-                with nut.NutCoreProfileSessionTap(dvt, {}, None) as tap:
-                    tap.getFPS()
-    else:
-        log.info(f'ios16 hight Fps get')
-        lockdown = create_using_usbmux()
-        with DvtSecureSocketProxyService(lockdown) as dvt:
-            with nut.NutCoreProfileSessionTap(dvt, {}, None) as tap:
-                tap.getFPS()
+    app = QApplication(sys.argv)
+    win = NutWidget()
+    win.show()
+    
+    ret = app.exec()
+    sys.exit(0)

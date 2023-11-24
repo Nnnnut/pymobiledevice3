@@ -2,6 +2,7 @@ from pymobiledevice3.services.dvt.dvt_secure_socket_proxy import DvtSecureSocket
 from pymobiledevice3.services.remote_server import Tap, MessageAux
 # from pymobiledevice3.services.dvt.instruments.core_profile_session_tap import CoreProfileSessionTap
 from pymobiledevice3.services.dvt.instruments.core_profile_session_tap import STACKSHOT_HEADER
+# from nut.nutWidget import NutWidget
 import typing, uuid, time, struct
 from nut.log import Log
 
@@ -39,6 +40,26 @@ class NutCoreProfileSessionTap(Tap):
 
         super().__init__(dvt, self.IDENTIFIER, config)
 
+    def start(self):
+        self.channel = self._dvt.make_channel(self._channel_name)
+        self.channel.setConfig_(MessageAux().append_obj(self._config), expects_reply=False)
+        self.channel.start(expects_reply=False)
+
+        # first message is just kind of an ack
+        self.channel.receive_plist()
+
+    def stop(self):
+        self.channel.stop(expects_reply=False)
+        
+    def restart(self, sleep_time = 5):
+        # stop
+        self.stop()
+
+        time.sleep(sleep_time)
+
+        # start
+        self.start()
+
     def _kperf_data(self, messages):
         _list = []
         p_record = 0
@@ -49,23 +70,8 @@ class NutCoreProfileSessionTap(Tap):
             _list.append(struct.unpack('<QLLQQQQLLQ', messages[p_record:p_record + 64]))
             p_record += 64
         return _list
-        
-    def restart(self, sleep_time = 5):
-        # stop
-        self.channel.stop(expects_reply=False)
 
-        time.sleep(sleep_time)
-
-        # start
-        # self.channel = self._dvt.make_channel(self._channel_name)
-        self.channel.setConfig_(MessageAux().append_obj(self._config), expects_reply=False)
-        self.channel.start(expects_reply=False)
-
-        # first message is just kind of an ack
-        self.channel.receive_plist()
-        return self
-
-    def getFPS(self, timeout: int = None):
+    def getFPS(self, window = None, timeout: int = None):
         start = time.perf_counter()
         
         NANO_SECOND = 1e9
@@ -77,7 +83,8 @@ class NutCoreProfileSessionTap(Tap):
         skip_count = 0
         skip_time = time.perf_counter()
         
-        while timeout is None or time.time() <= start + timeout:
+        # while timeout is None or time.time() <= start + timeout:
+        while window.keepGetFPS:
             data = self.channel.receive_message()
             if data.startswith(STACKSHOT_HEADER) or data.startswith(b'bplist'):
                 if skip_count > 20:
@@ -107,6 +114,14 @@ class NutCoreProfileSessionTap(Tap):
                 
                 if time_count > NANO_SECOND:
                     run_time_sec = time.perf_counter() - start
-                    logger.info(f'FPS: {frame_count / time_count * NANO_SECOND:3.5f}, costTime: {run_time_sec//3600%60:02.0f}:{run_time_sec//60%60:02.0f}:{run_time_sec%60:02.0f}, time: {time_count / NANO_SECOND:.4f}')
+                    retDict = {'FPS': frame_count / time_count * NANO_SECOND,
+                               'costTime': f'{run_time_sec//3600%60:02.0f}:{run_time_sec//60%60:02.0f}:{run_time_sec%60:02.0f}', 
+                               'time': time_count / NANO_SECOND}
+                    if window.frashText:
+                        window.frashText(retDict)
+                    else:
+                        logger.info(f'FPS: {retDict["FPS"]:3.5f}, costTime: {retDict["costTime"]}, time: {retDict["time"]:.4f}')
                     frame_count = 0
                     time_count = 0
+        
+        logger.info(f'getFPS return, window.keepGetFPS: {window.keepGetFPS}')
